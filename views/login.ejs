@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="styles/login.style.css">
+
+<main class="main-login">
+    <div class="login-container">
+        <div class="login-form">
+            <h2 class="wel-back">Welcome back,</h2>
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <a href="/forgot_password" class="forgot-password">Forgot password?</a>
+                <button type="submit" class="btn btn-signin">
+                    SIGN IN
+                </button>
+            </form>
+        </div>
+        <div class="signup-info">
+            <div class="signup-info-content">
+                <h3 class="new-here">New here?</h3>
+                <p class="ask-for-signup">Sign up and discover a great amount of new experiences!</p>
+                <button class="btn btn-signup" onclick="window.location.href='/register'">SIGN UP</button>
+            </div>
+        </div>
+    </div>
+</main>

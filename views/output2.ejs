@@ -1,0 +1,581 @@
+<link rel="stylesheet" href="/styles/output2.style.css">
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script> -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="/scripts/plot_pie_charts.js"></script> 
+<script src="/scripts/output2_pdf.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+
+<main>
+    <div class="container d-flex w-auto justify-content-between mx-0 px-0">
+        <div id="google-and-counter">
+            <div id="google_element"></div>
+        </div>
+    </div>
+
+    <!-- Section Navigation Buttons -->
+    <!-- <div class="container text-center my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary w-100" onclick="showSection('mapSection')">Map</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary w-100" onclick="showSection('tableSection')">Tables</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary w-100" onclick="showSection('plotSection')">Plots</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="mapSection" class="section-content container d-flex flex-column mb-4" style="display: none;">
+        <div id="siteMap" class="map-container"></div>
+    </section>
+
+    <section id="tableSection" class="section-content container mt-4" style="display: none;">
+        <section id="wq_Risk" class="container d-flex flex-column align-items-center">
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Water Quality Risk Assessment</h3>
+            </div>
+            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <table class="table table-bordered text-center text-wrap">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Sl.no</th>
+                            <th colspan="3">Location</th>
+                            <th rowspan="2">WQI</th>
+                            <th rowspan="2">Water Quality</th>
+                            <th colspan="3">Health Risk Assessment</th>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Males</th>
+                            <th>Females</th>
+                            <th>Children</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wq_tbody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="wqi_Status" class="container d-flex flex-column align-items-center mt-4">
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Location-wise Water Quality Status</h3>
+            </div>
+            <canvas id="barChart" class="chart-container"></canvas>
+        </section>
+    </section>
+
+    <section id="plotSection" class="section-content container mt-4" style="display: none;">
+        <section id="wqi_division" class="container d-flex flex-column align-items-center mt-4">
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Water Quality Analysis - WQI</h3>
+            </div>
+            <div id="pieChart" style="max-height: 500px;" data-aos="zoom-in-up" data-aos-duration="2000"></div>
+        </section>
+
+        <section id="hazard_division" class="container d-flex flex-column align-items-center mt-4">
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Water Quality Analysis - Hazard Analysis</h3>
+            </div>
+            <div class="row w-100">
+                <div class="col-md-4 mb-3" data-aos="fade-right" data-aos-offset="300" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <h3 class="wqi_pie_header">Hazard Index - Male</h3>
+                    <div id="pieChart1" class="pie-chart-container"></div>
+                </div>
+
+                <div class="col-md-4 mb-3" data-aos="fade-in" data-aos-offset="300" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <h3 class="wqi_pie_header">Hazard Index - Female</h3>
+                    <div id="pieChart2" class="pie-chart-container"></div>
+                </div>
+        
+                <div class="col-md-4 mb-3" data-aos="fade-left" data-aos-offset="300" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <h3 class="wqi_pie_header">Hazard Index - Child</h3>
+                    <div id="pieChart3" class="pie-chart-container"></div>
+                </div>
+            </div>
+        </section>
+    </section> 
+
+    <div class="text-center mt-4">
+        <button class="btn btn-primary pdf-button" onclick="generatePDF()">Generate PDF</button>
+        <div class="text-muted">Click Button To Download PDF</div>
+    </div> -->
+    
+    <div class="container-fluid overflow-auto" data-aos="fade-up">
+
+        <div class="container d-flex flex-column align-items-center">
+
+            <div class="d-flex justify-content-end align-items-center w-100 mb-2 mt-2 px-2 gap-2">
+                <button class="btn btn-outline-primary" onclick="generatePDF()">
+                    🖨️ Print
+                </button>
+                <a href="/welcome" class="btn btn-outline-primary">
+                    🔙 Return to Welcome Page
+                </a>
+            </div>
+
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Drinking Water Quality Analysis</h3>
+            </div>
+            <div id="mapd" class="container d-flex flex-column mb-4">
+                <div id="siteMap" class="map-container"></div>
+            </div>
+
+            <section id="wq_Risk" class="container d-flex flex-column align-items-center">
+                <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                    <h3 class="wqi_header">Water Quality Risk Assessment</h3>
+                </div>
+                <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-bordered text-center text-wrap">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Sl.no</th>
+                                <th colspan="3">Location</th>
+                                <th rowspan="2">WQI</th>
+                                <th rowspan="2">Water Quality</th>
+                                <th colspan="3">Health Risk Assessment</th>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Males</th>
+                                <th>Females</th>
+                                <th>Children</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wq_tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="wqi_Status" class="container d-flex flex-column align-items-center mt-4">
+                <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                    <h3 class="wqi_header">Location-wise Water Quality Status</h3>
+                </div>
+                <canvas id="barChart" class="chart-container"></canvas>
+            </section>
+
+            <section id="wqi_division" class="container d-flex flex-column align-items-center mt-4">
+                <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                    <h3 class="wqi_header">Water Quality Analysis - WQI</h3>
+                </div>
+                <div id="pieChart" style="max-height: 500px; border-radius: 5px;"></div>
+            </section>
+
+            <section id="hazard_division" class="container d-flex flex-column align-items-center mt-4">
+                <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                    <h3 class="wqi_header">Water Quality Analysis - Hazard Analysis</h3>
+                </div>
+                <div class="row w-100">
+                    <div class="col-md-4 mb-3">
+                        <h3 class="wqi_pie_header">Hazard Index - Male</h3>
+                        <div id="pieChart1" style="max-height: 400px; border-radius: 10px;"></div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <h3 class="wqi_pie_header">Hazard Index - Female</h3>
+                        <div id="pieChart2" style="max-height: 400px; border-radius: 10px;"></div>
+                    </div>
+            
+                    <div class="col-md-4 mb-3">
+                        <h3 class="wqi_pie_header">Hazard Index - Child</h3>
+                        <div id="pieChart3" style="max-height: 400px; border-radius: 10px;"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-primary pdf-button" onclick="generatePDF()">Generate PDF</button>
+                <div class="text-muted">Click Button To Download PDF</div>
+            </div>
+        </div> 
+    </div>
+</main>
+
+<script>
+    function showSection(sectionId) {
+        const allSections = document.querySelectorAll('.section-content');
+        allSections.forEach(section => {
+            section.style.display = 'none';
+        });
+
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+            selectedSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        showSection('mapSection');
+    });
+</script>
+
+
+<script>
+    const data = JSON.parse('<%- data %>');
+    let mapURLs = [];
+    let barLabels = [];
+    let barData = [];
+    let pieData = [0, 0, 0, 0, 0];
+    let hazard_man = [0, 0];
+    let hazard_woman = [0, 0];
+    let hazard_child = [0, 0];
+    let barBgColors = [];
+    let barBorderColors = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const locations = Object.keys(data).map(key => ({
+            lat: data[key].latitude,
+            lon: data[key].longitude,
+            key: key
+        }));
+
+        const addressesToUpdate = [];
+        locations.forEach(loc => {
+            const { lat, lon, key } = loc;
+            const state = data[key].state || '';
+            const district = data[key].district || '';
+            const block = data[key].block || '';
+            const locationName = data[key].location || '';
+
+            if (state && district && block && locationName) {
+                const fullAddress = `${locationName}, ${block}, ${district}, ${state}`;
+                barLabels.push(locationName);
+                document.getElementById(`address${key}`).innerHTML = fullAddress;
+            } else if (state && district && locationName || block) {
+                const fullAddress = `${locationName}, ${district}, ${state}`;
+                barLabels.push(locationName);
+                document.getElementById(`address${key}`).innerHTML = fullAddress;
+            } else {
+                addressesToUpdate.push(loc);
+            }
+        });
+
+        async function getBatchAddress(locations) {
+            try {
+                const response = await fetch('/reverse-geocode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ locations }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server responded with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.addresses;
+            } catch (error) {
+                console.error("Error fetching batch addresses:", error);
+                return [];
+            }
+        }
+
+        if (addressesToUpdate.length > 0) {
+            const addresses = await getBatchAddress(addressesToUpdate);
+            addresses.forEach(address => {
+                const { key, display_name } = address;
+                // console.log(key, display_name);
+                document.getElementById(`address${key}`).innerHTML = display_name || "Address not found";
+
+                const addressParts = display_name.split(", ");
+                barLabels.push(addressParts[0] || `Location ${key}`);
+            });
+        }
+
+        renderChartsOutput2();
+    });
+    
+    /* window.addEventListener('load', () => {
+
+        // Loop through data and push reverse geocoding URLs or use existing address parts
+        for (var key in data) {
+            const lat = data[key].latitude;
+            const lon = data[key].longitude;
+            
+            // Check if address details are already present
+            const state = data[key].state || '';
+            const district = data[key].district || '';
+            const block = data[key].block || '';
+            const location = data[key].location || '';
+
+            if ((state && district && block && location)) {
+                // If all address parts are available, use them directly
+                const fullAddress = `${location}, ${block}, ${district}, ${state}`;
+                barLabels.push(location);
+                document.getElementById(`address${key}`).innerHTML = fullAddress;
+            }
+            else if ((state && district && location || block)){
+                // If all address parts are available, use them directly
+                const fullAddress = `${location}, ${district}, ${state}`;
+                barLabels.push(location);
+                document.getElementById(`address${key}`).innerHTML = fullAddress;
+            } else {
+                // If address parts are not available, make the API call
+                mapURLs.push({ lat, lon });
+            }
+        }
+
+        // Updated getAddress function to hit your backend endpoint instead of external API
+        function getAddress(lat, lon) {
+            return fetch(`/reverse-geocode?lat=${lat}&lon=${lon}`) // Backend API
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => data.display_name)
+                .catch(error => {
+                    console.error("There was a problem with the fetch operation:", error);
+                    return "Address not found";
+                });
+        }
+
+        // Use Promise.all to fetch remaining addresses
+        if (mapURLs.length > 0) {
+            Promise.all(mapURLs.map(({ lat, lon }) => getAddress(lat, lon))).then((addresses) => {
+                addresses.forEach((address, i) => {
+                    document.getElementById(`address${i}`).innerHTML = address;
+                    const addressParts = address.split(", ");
+                    barLabels.push(addressParts[0] || `Location ${i + 1}`);
+                });
+
+                // Chart rendering logic...
+                renderCharts();
+            }).catch(error => {
+                console.error("Error in fetching addresses:", error);
+            });
+        } else {
+            // If no API calls are needed, directly render charts
+            renderCharts();
+        }
+    }); */
+
+    // Initialize map
+    const map = L.map('siteMap').setView([24.3243, 85.5216], 5);
+    const iconOptions = {
+        iconSize: [20, 20]
+    };
+
+    const redIcon = L.icon({ iconUrl: '/img/location-pin1.png', ...iconOptions });
+    const darkGreenIcon = L.icon({ iconUrl: '/img/location-pin51.png', ...iconOptions });
+    const lightGreenIcon = L.icon({ iconUrl: '/img/location-pin4.png', ...iconOptions });
+    const yellowIcon = L.icon({ iconUrl: '/img/location-pin3.png', ...iconOptions });
+    const orangeIcon = L.icon({ iconUrl: '/img/location-pin2.png', ...iconOptions });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+    const legend = L.control({ position: "bottomleft" });
+    legend.onAdd = function () {
+        const div = L.DomUtil.create("div", "legend");
+        div.innerHTML += '<h4>Water Quality Status</h4>';
+        div.innerHTML += '<i style="background: var(--bs-green)"></i><span>Excellent</span><br>';
+        div.innerHTML += '<i style="background: #16c172"></i><span>Good</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-yellow)"></i><span>Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-orange)"></i><span>Very Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-danger)"></i><span>Unsuitable for drinking</span><br>';
+        return div;
+    };
+    legend.addTo(map);
+
+    // Add markers to the map
+    for (const key in data) {
+        let tooltipContent = '';
+        for (const item in data[key]) {
+            if (['water_quality_index', 'hazard_index', 'date'].includes(item)) {
+                tooltipContent += `<span>${item}: ${data[key][item]}</span><br>`;
+            }
+        }
+
+        const { latitude, longitude, water_quality_index } = data[key];
+        let icon;
+
+        if (water_quality_index >= 0 && water_quality_index <= 25) {
+            icon = darkGreenIcon;
+        } else if (water_quality_index > 25 && water_quality_index <= 50) {
+            icon = lightGreenIcon;
+        } else if (water_quality_index > 50 && water_quality_index <= 75) {
+            icon = yellowIcon;
+        } else if (water_quality_index > 75 && water_quality_index <= 100) {
+            icon = orangeIcon;
+        } else if (water_quality_index > 100) {
+            icon = redIcon;
+        }
+
+        L.marker([latitude, longitude], { icon })
+            .addTo(map)
+            .bindTooltip(tooltipContent)
+            .closeTooltip();
+    }
+
+    const tbody = document.getElementById("wq_tbody");
+    let wqi_status = [];
+    let i = 0;
+
+    // Hazard index
+    for (const key in data) {
+        barData.push(data[key].water_quality_index);
+        let bg_color, wqi_class;
+        var bg_color_child, bg_color_male, bg_color_female;
+
+        if (data[key].water_quality_index >= 0 && data[key].water_quality_index <= 25) {
+            wqi_class = 'Excellent';
+            pieData[0]++;
+            wqi_status.push(wqi_class);
+            bg_color = 't-1';
+            barBgColors.push("rgba(25, 135, 84, 0.8)");
+            barBorderColors.push("rgb(0, 0, 0)");
+        } else if (data[key].water_quality_index > 25 && data[key].water_quality_index <= 50) {
+            wqi_class = 'Good';
+            pieData[1]++;
+            wqi_status.push(wqi_class);
+            bg_color = 't-2';
+            barBgColors.push("rgba(22, 193, 114, 0.8)");
+            barBorderColors.push("rgb(0, 0, 0)");
+        } else if (data[key].water_quality_index > 50 && data[key].water_quality_index <= 75) {
+            wqi_class = 'Poor';
+            pieData[2]++;
+            wqi_status.push(wqi_class);
+            bg_color = 't-3';
+            barBgColors.push("rgba(255, 193, 7, 0.8)");
+            barBorderColors.push("rgb(0, 0, 0)");
+        } else if (data[key].water_quality_index > 75 && data[key].water_quality_index <= 100) {
+            wqi_class = 'Very Poor';
+            pieData[3]++;
+            wqi_status.push(wqi_class);
+            bg_color = 't-4';
+            barBgColors.push("rgba(255, 159, 64, 0.8)");
+            barBorderColors.push("rgb(0, 0, 0)");
+        } else if (data[key].water_quality_index > 100) {
+            wqi_class = 'Unsuitable for drinking';
+            pieData[4]++;
+            wqi_status.push(wqi_class);
+            bg_color = 't-5';
+            barBgColors.push("rgba(220, 53, 69, 0.8)");
+            barBorderColors.push("rgb(0, 0, 0)");
+        }
+
+        //Hazard index
+        if (data[key].hazard_index.male < 1) {
+            health_risk_male = "No Risk";
+            hazard_man[0]++;
+            bg_color_male = "t-1";
+        } else {
+            health_risk_male = "High Risk";
+            hazard_man[1]++;
+            bg_color_male = "t-5";
+        }
+    
+        if (data[key].hazard_index.female < 1) {
+            health_risk_female = "No Risk";
+            hazard_woman[0]++;
+            bg_color_female = "t-1";
+        } else {
+            health_risk_female = "High Risk";
+            hazard_woman[1]++;
+            bg_color_female = "t-5";
+        }
+    
+        if (data[key].hazard_index.child < 1) {
+            health_risk_child = "No Risk";
+            hazard_child[0]++;
+            bg_color_child = "t-1";
+        } else {
+            health_risk_child = "High Risk";
+            hazard_child[1]++;
+            bg_color_child = "t-5";
+        }
+
+        html = '<tr class=' + bg_color + ' >\
+            <td>'+ (i + 1) + '</td>\
+            <td  id="address'+ i +'"></td>\
+            <td >'+ parseFloat(data[key].latitude).toFixed(4) + '</td>\
+            <td >'+ parseFloat(data[key].longitude).toFixed(4) + '</td>\
+            <td >'+ data[key].water_quality_index + '</td>\
+            <td >'+ wqi_class + '</td>\
+            <td  class=' +bg_color_male +'>' +health_risk_male+' (HI='+data[key].hazard_index.male +')'+'</td>\
+            <td class=' +bg_color_female +'>' +health_risk_female +' (HI='+data[key].hazard_index.female+')'+'</td>\
+           <td  class=' +bg_color_child +'>'+health_risk_child+' (HI='+data[key].hazard_index.child +')'+'</td>\
+        </tr>';
+        tbody.innerHTML += html;
+        i++;
+    }
+
+    async function fetchUserData() {
+        // Retrieve user details from user input 
+        const udata = JSON.parse('<%- userdata %>');
+        
+        const userDetails = {
+            name: udata.name,
+            email: udata.email,
+            country: udata.country,
+        };
+        
+        // Extract parameters 
+        const parameters = Object.values(data).map((entry, index) => ({
+                Location: barLabels[index] || '-',
+                Date: entry.date,
+                pH: entry.ph || '-',
+                Temperature: entry.temperature || '-',
+                Turbidity: entry.turbidity || '-',
+                "Electrical Conductivity": entry.electrical_conductivity || '-',       
+                Hardness: entry.hardness || '-',       
+                Alkalinity: entry.alkalinity || '-',       
+                TDS: entry.total_dissolved_solids || '-',       
+                "Dissolved Oxygen": entry.dissolved_oxygen || '-',       
+                BOD: entry.biological_oxygen_demand || '-',       
+                COD: entry.chemical_oxygen_demand || '-',
+                "Potassium Ion": entry.potassiumion || '-',
+                "Magnesium Ion": entry.magnesiumion || '-',
+                "Calcium Ion": entry.calciumion || '-',
+                "Sodium Ion": entry.sodiumion || '-',       
+                Ammonium: entry.ammonium || '-',       
+                Chloride: entry.chloride || '-',
+                Carbonate: entry.carbonate || '-',
+                Bicarbonate: entry.bicarbonate || '-',
+                Sulfate: entry.sulfate || '-',
+                Nitrate: entry.nitrate || '-',
+                Nitrite: entry.nitrite || '-',
+                Phosphate: entry.phosphate || '-',
+                Fluoride: entry.fluoride || '-',
+                latitude: entry.latitude,
+                longitude: entry.longitude,
+                WQI: entry.water_quality_index || '-',
+                WQI_status: wqi_status[index]|| '-',
+                hazard_index_male: entry.hazard_index.male || '-',
+                hazard_index_female: entry.hazard_index.female || '-',
+                hazard_index_child: entry.hazard_index.child || '-',
+                bgColor: barBgColors[index],
+            }));
+
+        return { userDetails, parameters };
+    }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement("google_element");
+    }
+    AOS.init();
+</script>

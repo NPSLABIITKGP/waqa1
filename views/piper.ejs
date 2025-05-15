@@ -1,0 +1,84 @@
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="/scripts/piper.js"></script>
+  <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
+  <style>
+    .domain{
+      fill: none;
+    }
+    .shape{
+    	fill: skyblue
+    }
+    line{
+      stroke: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row w-100 text-center mt-3 text-white bg-primary">
+    <h3 class="wqi_header">Piper Diagram</h3>
+  </div>
+  <div class="container"> </div>
+  <div class="container1"></div>
+  <div class="container2"></div>
+  <div class="container3"></div>
+  <div class="container4"></div>
+</body>
+
+<script>
+    var config = {
+      container: document.querySelector('.container'),
+      width: 700,
+      height: 700,
+      margin: {top: 40, right: 40, bottom: 40, left: 40},
+      data: [1, 3, 4,5]
+    };
+    
+    var chart = piper.lineChart(config);
+
+
+    var config1 = {
+      container: document.querySelector('.container1'),
+      width: 700,
+      height: 700,
+      margin: {top: 100, right: 40, bottom: 40, left: 40},
+      data: [1, 3, 4,5]
+    };
+    
+    var chart1 = piper.sparkline(config1);
+
+
+    var config2 = {
+      container: document.querySelector('.container2'),
+      width: 700,
+      height: 700,
+      margin: {top: 200, right: 40, bottom: 40, left: 40},
+      data: [1, 3, 4,5]
+    };
+    
+    var chart2 = piper.barChart(config2);
+
+
+    var config3 = {
+      container: document.querySelector('.container3'),
+      width: 700,
+      height: 700,
+      margin: {top: 300, right: 40, bottom: 40, left: 40},
+      data: [1, 3, 4,5]
+    };
+    
+    var chart3 = piper.singleAxis(config3);
+
+    var config4 = {
+      container: document.querySelector('.container4'),
+      width: 700,
+      height: 700,
+      margin: {top: 500, right: 40, bottom: 40, left: 40},
+      data: [1, 3, 4,5]
+    };
+    
+    var chart4 = piper.trilinear(config4);
+</script>
+

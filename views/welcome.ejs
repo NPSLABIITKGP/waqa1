@@ -1,0 +1,119 @@
+<!-- <link rel="stylesheet" href="/styles/welcome.style.css">
+<main>
+    <div class="container d-flex w-auto justify-content-between mx-0 px-0">
+        <div id="google-and-counter">
+            <div id="google_element"></div>
+        </div>
+    </div>
+    <div class="container-welcome">
+        <div id="errorMessageContainer"></div>
+
+        <div class="section">
+            <div class="card-header">Excel Data Analysis</div>
+            <p>Analyze data and show results based on the Excel data.</p>
+            <form id="analysisForm" action="/analyse_excel" method="post" enctype="multipart/form-data">
+                <div class="upload-file">
+                    <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
+                </div>
+
+                <div class="buttons-of-analysis">
+                    <button type="submit" name="analysisType" value="water">Water Analysis</button>
+                    <button type="submit" name="analysisType" value="irrigation">Irrigation Analysis</button>
+                    <button type="submit" name="analysisType" value="both">Both</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="section">
+            <div class="card-header">Manual Data Entry</div>
+            <p>Select a location and enter parameters manually.</p>
+            <div class="manual-button">
+                <button onclick="window.location.href='/input'">Add Manually</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.getElementById('analysisForm').addEventListener('submit', function(event) {
+        var excelFile = document.getElementById('excelFile').files[0];
+        var errorMessageContainer = document.getElementById('errorMessageContainer');
+        errorMessageContainer.innerHTML = '';
+
+        if (!excelFile) {
+            event.preventDefault();
+
+            var errorAlert = document.createElement('div');
+            errorAlert.className = 'alert alert-danger';
+            errorAlert.innerText = 'Please upload an Excel file before proceeding with analysis.';
+            errorMessageContainer.appendChild(errorAlert);
+        }
+    });
+</script> -->
+
+
+<link rel="stylesheet" href="/styles/welcome.style.css">
+<main>
+    <div class="container d-flex w-auto justify-content-between mx-0 px-0">
+        <div id="google-and-counter">
+            <div id="google_element"></div>
+        </div>
+    </div>
+    <div class="container-welcome">
+        <div id="errorMessageContainer"></div>
+
+        <div class="analysis-content">
+            <div class="analysis-container">
+                <div class="analysis-image">
+                    <img src="https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?q=80&w=2062&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Analysis Image">
+                </div>
+                <div class="analysis-info">
+                    <h1>Excel Data Analysis</h1>
+                    <p>
+                        This feature allows you to upload Excel files containing your data for analysis. 
+                        The application can process various types of data, including water quality metrics, irrigation needs, and more. 
+                        Make sure your Excel file is formatted correctly, with clear headers and appropriate data types, 
+                        to ensure accurate analysis.
+                    </p>
+                    <form id="analysisForm" action="/analyse_excel" method="post" enctype="multipart/form-data">
+                        <div class="upload-file">
+                            <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls">
+                        </div>
+                        <div class="analysis-buttons">
+                            <button type="submit" name="analysisType" value="water">Water Analysis</button>
+                            <button type="submit" name="analysisType" value="irrigation">Irrigation Analysis</button>
+                            <button type="submit" name="analysisType" value="both">Both</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="manual-content">
+            <div class="manual-container">
+                <div class="manual-info">
+                    <h1>Add Parameters Manually</h1>
+                    <p>Input water quality parameters for specific locations manually. This feature allows you to add data for drinking water, irrigation analysis, and other purposes, ensuring accurate and customized reports.</p>
+                    <button onclick="window.location.href='/input'">Add Manually</button>
+                </div>
+                <div class="manual-image">
+                    <img src="https://i.postimg.cc/65QxYYzh/001234.png" alt="Manual Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.getElementById('analysisForm').addEventListener('submit', function(event) {
+        var excelFile = document.getElementById('excelFile').files[0];
+        var errorMessageContainer = document.getElementById('errorMessageContainer');
+        errorMessageContainer.innerHTML = '';
+
+        if (!excelFile) {
+            event.preventDefault();
+            var errorAlert = document.createElement('div');
+            errorAlert.className = 'alert alert-danger';
+            errorAlert.innerText = 'Please upload an Excel file before proceeding with analysis.';
+            errorMessageContainer.appendChild(errorAlert);
+        }
+    });
+</script>

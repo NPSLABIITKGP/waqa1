@@ -1,0 +1,245 @@
+/* * {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to right, #f0f4f8, #d9e7ff, #b0e0e6);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background: linear-gradient(to right, var(--bs-cyan), #121212);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.contact-container {
+    background-color: #f1f1f1;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-width: 100%;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #fff;
+    color: #0072ff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: #0072ff;
+    color: #fff;
+}
+
+.user-info {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.user-info h3 {
+    margin-top: 0;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #e0ebeb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.main-contact {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 70%;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.contact-form {
+    width: 60%;
+    padding: 50px;
+}
+
+.contact-info {
+    width: 40%;
+    background-image: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.contact-info-content {
+    background-color: #000;
+    opacity: 0.8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.contact-heading {
+    font-family: 'Roboto Mono';
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.reach-us {
+    font-family: 'Roboto Mono';
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.help-text {
+    font-family: 'Roboto Mono';
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 15px;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-contact {
+    background-color: #2e8b57;
+    color: white;
+    width: 100%;
+}
+
+.btn-help {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-help:hover, .btn-contact:hover {
+    opacity: 0.8;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .contact-form, .contact-info {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .contact-heading, .reach-us {
+        font-size: 1.5rem;
+    }
+
+    .help-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form {
+        padding: 15px;
+    }
+
+    .contact-info {
+        padding: 30px 15px;
+    }
+
+    .contact-heading, .reach-us {
+        font-size: 1.25rem;
+    }
+}

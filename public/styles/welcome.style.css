@@ -1,0 +1,234 @@
+/* body {
+    background: linear-gradient(to right, #f0f4f8, #d9e7ff, #b0e0e6);
+    height: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: linear-gradient(to right, var(--bs-cyan), #121212);
+}
+
+.container-welcome {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:45px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-greeting h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #007bff;
+    text-align: right;
+}
+
+.section {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.section h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.card-header {
+    margin-top: 10px;
+    background: linear-gradient(135deg, #9ec7ef, #007bff);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.25em;
+    border-radius: 10px;
+}
+
+.section p {
+    color: #666;
+}
+
+.upload-file {
+    margin: 20px 0;
+}
+
+input[type="file"] {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: calc(50% - 22px);
+}
+
+.buttons-of-analysis, .manual-button {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:focus {
+    outline: none;
+}
+  
+@media (max-width: 768px) {
+    .buttons-of-analysis, .manual-button {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+} */
+
+body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: linear-gradient(to right, var(--bs-cyan), #121212);
+}
+
+.container-welcome {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-content, .manual-content {
+    margin: 20px auto;
+    padding: 15px;
+}
+
+.analysis-container, .manual-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+    /* min-height: calc(100vh - 80px); */
+}
+
+.analysis-image img, .manual-image img {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.analysis-info, .manual-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.analysis-info h1, .manual-info h1 {
+    font-size: 44px;
+    color: #5d5d5d;
+}
+
+.analysis-info p, .manual-info p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 16px;
+    color: #5d5d5d;
+}
+
+.upload-file {
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: calc(100% - 22px);
+}
+
+.analysis-buttons, .manual-button {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:focus {
+    outline: none;
+}
+
+@media (max-width: 992px) {
+    .analysis-container, .manual-container {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .analysis-container, .manual-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .analysis-info, .manual-info {
+        align-items: center;
+    }
+
+    .analysis-image img, .manual-image img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .analysis-buttons, .manual-button {
+        gap: 5px;
+    }
+
+    .analysis-image img, .manual-image img {
+        max-width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+}

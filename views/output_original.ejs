@@ -1,0 +1,1176 @@
+<link rel="stylesheet" href="/styles/output.style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
+<script src="/scripts/wilcox.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> -->
+<script src="https://cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="/scripts/piper.js"></script> -->
+<!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+<script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
+
+<main>
+<div id="outputpage" class="overflow-auto">
+    
+    <div class="container text-center">
+        <h3 class="fw-bold pt-2 text-white">Water Quality Status</h3>
+    </div>
+
+    <div id="year" class="container">
+        <select name="year" id="select_year">
+            <option value="all_data" selected >All data</option>            
+        </select>
+    </div>
+
+    <div id="mapb" class="container d-flex flex-column">
+        <div id="siteMap" style="height: 33rem;"></div>
+    </div>
+
+    <div class="container d-flex flex-column align-items-center mt-3">
+        <!-- <input type="checkbox" id="myCheckbox1"> -->
+ 
+       <div id ="wqRisk" class="container d-flex flex-column align-items-center mt-3">
+        <!-- Water Quality Risk Assessment Table -->
+        <div id="myDiv1" class="row w-100 text-center mt-3 text-white bg-primary">
+            <h3 class="wqi_header"> Water Quality Risk Assessment</h3>
+        </div>
+       <table id="myDiv1" class="table text-center text-wrap table-1 w-100">
+            <thead>                
+                <tr class="t-h">
+                    <th rowspan="2">Sl.no</th>
+                    <th colspan="3" >Location</th>
+                    <th rowspan="2" >WQI</th>
+                    <th rowspan="2" >Water Quality</th>   
+                    <th  colspan="3" >Health Risk Assessment</th> 
+                </tr>
+             
+                <tr class="t-h">
+                    <th>Address</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>   
+                    <th>Males</th>
+                    <th>Females</th>
+                    <th>Children</th>             
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>   
+    </div>
+
+        <!-- Location-wise Water Quality Status Graph -->
+    <div id ="wqiStatus" class="container d-flex flex-column align-items-center mt-3">
+        <div class="container d-flex flex-column align-items-center chart" style="height: 700px;">
+            <div  class="row w-100 text-center mt-3 text-white bg-primary">
+                <h3 class="wqi_header">Location-wise Water Quality Status</h3>
+            </div>
+            <Canvas id="barChart" style="background-color: white;"></Canvas>
+        </div>
+    </div>
+
+
+        <!-- Irrigation Suitability Table -->
+    <div id ="irrigationSuit" class="container d-flex flex-column align-items-center mt-3">
+        <div id="myDiv1" class="row w-100 text-center mt-3 text-white bg-primary">
+            <h3 class="wqi_header"> Irrigation Suitability</h3>
+        </div>
+        <table class="table text-center text-wrap table-1 w-100">
+            <thead>                
+                <tr class="t-h">
+                    <th rowspan="2">Sl.no</th>
+                    <th colspan="3" >Location</th> 
+                    <th rowspan="2" >SAR</th> 
+                    <th rowspan="2" >Irrigation suitability based on SAR</th>
+                    <th  rowspan="2">Na%</th> 
+                    <th  rowspan="2">Irrigation suitability based on Na%</th> 
+                </tr>
+                <tr class="t-h">
+                    <th>Address</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>              
+                </tr>
+            </thead>
+            <tbody id="tbody1"></tbody>
+        </table>
+    </div> 
+
+
+        <!-- Location-wise Sodium Adsorption Ratio Graph --> 
+    <div id ="sarStatus" class="container d-flex flex-column align-items-center mt-3">
+        <div class="container d-flex flex-column align-items-center chart" style="height: 700px;">
+            <div class="row w-100 text-center mt-3 text-white bg-primary">
+                <h3 class="wqi_header">Location-wise Sodium Adsorption Ratio</h3>
+            </div>
+            <Canvas id="barChart1" style="background-color: white;"></Canvas>
+        </div>
+    </div>
+
+
+        <table class="table text-center text-wrap table-1 w-100" style="display:none">
+            <thead>                
+                <tr class="t-h">
+                    <th rowspan="2">Sl.no</th>
+                    <th colspan="3" >Location</th>
+                    <th  rowspan="2">Na%</th> 
+                    <th  rowspan="2">Irrigation suitability based on Na%</th>   
+                </tr>
+                <tr class="t-h">
+                    <th>Address</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>              
+                </tr>
+            </thead>
+            <tbody id="tbody2"></tbody>
+        </table>
+
+        <!-- Location-wise Sodium Percentage Graph -->
+    <div id ="NaStatus" class="container d-flex flex-column align-items-center mt-3">
+        <div class="container d-flex flex-column align-items-center chart" style="height: 700px;">
+            <div class="row w-100 text-center mt-3 text-white bg-primary">
+                <h3 class="wqi_header">Location-wise Sodium Percentage</h3>
+            </div>
+            <Canvas id="barChart2" style="background-color: white;"></Canvas>
+        </div>
+    </div>
+
+        <!-- Wilcox Diagram -->
+    <div id ="wilcoxD" class="container d-flex flex-column align-items-center mt-3">
+        <div class="row w-100 text-center mt-3 text-white bg-primary">
+            <h3 class="wqi_header">Wilcox Diagram</h3>
+        </div>
+        <div id="myDiv" style="height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+    </div>
+
+        <!-- Chadha's Diagram -->
+    <div id ="chadhaD" class="container d-flex flex-column align-items-center mt-3">
+        <div class="row w-100 text-center mt-3 text-white bg-primary">
+            <h3 class="wqi_header">Chadha's Diagram (Modified Piper Diagram)</h3>
+        </div>
+        <!-- <div id="chadha" style="width:50vw"></div> -->
+        <div id="chadha" style="height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+    </div>
+
+
+        <!-- Piper Diagram  -->
+        <!-- <div class="row w-100 text-center mt-3 text-white bg-primary">
+            <h3 class="wqi_header">Piper Diagram</h3>
+        </div> -->
+        <!-- <div class="container"> </div>
+        <div class="container1"></div>
+        <div class="container2"></div>
+        <div class="container3"></div>
+        <div class="container4"></div> -->
+       
+    </div>
+
+    <div class="text-center">
+        <button class="pdf-button" onclick="generatePDF()">Generate PDF</button>
+        <div style="color: #afd5f3;">Click Button <br> To Download PDF</div>
+    </div>
+
+</div>
+
+</main>
+
+
+<!-- scripts -->
+<!-- <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
+    <!-- Wilcox Diagram Script -->
+    <script>
+        const data1 = JSON.parse('<%- data %>');
+        // console.log(data1);
+        var Na_per_array = [];
+        var temp1 = [];
+        var nth = 0;
+        for (var key in data1){
+            Na_per_array.push(parseFloat(data1[key]["Na_per"]));
+            nth++;
+            var st = nth.toString();
+            temp1.push(st);
+        }
+        // console.log(Na_per_array);
+        // console.log(temp1);
+        var EC_array = [];
+        for (var key in data1){
+            EC_array.push(parseFloat(data1[key]["electrical_conductivity"]));
+        }
+        // console.log(EC_array);
+
+        TESTER = document.getElementById('myDiv');
+        Plotly.newPlot(
+            TESTER,
+            [
+                {
+                    x: EC_array,
+                    y: Na_per_array,
+                    mode: "markers+text",
+                    type: "scatter",
+                    text: temp1,
+                    textposition: "top center",
+                    textfont: {
+                        color: 'Black',
+                        // family: "Arial Black, sans-serif"
+                    },
+                    marker: { size: 8 },
+                },
+            ],
+            {
+                images: [
+                    {
+                        source:
+                            "https://raw.githubusercontent.com/tarun-tej-t/rutag-imgs/main/wilcox-empty.png",
+                        xref: "x",
+                        yref: "y",
+                        x: -850,
+                        y: 105,
+                        sizex: 5400,
+                        sizey: 125,
+                        sizing: "stretch",
+                        opacity: 0.9,
+                        layer: "below",
+                    },
+                ],
+                xaxis: {
+                    title: "Electrical Conductivity (in μS/cm)",
+                    range: [0, 4100], 
+                },
+                yaxis: {
+                    title: "Sodium Percentage (in Na%)",
+                    range: [0, 100], 
+                },
+            }
+        );
+           
+    </script>
+
+    <!-- Chadha's Diagram Script -->
+    <script>
+        const data2 = JSON.parse('<%- data %>');
+        var ansx = [];
+        var temp = [];
+        var nth = 0;
+        for (var key in data2){
+            var a = (parseFloat(data2[key].calciumion) + parseFloat(data2[key].magnesiumion)) - (parseFloat(data2[key].sodiumion) + parseFloat(data2[key].potassiumion));
+            ansx.push(a);
+            nth++;
+            var st = nth.toString();
+            temp.push("Point:" + st);
+        }
+        // console.log(ansx);
+
+        var ansy = [];
+        for (var key in data2){
+            var b = (parseFloat(data2[key].carbonate) + parseFloat(data2[key].bicarbonate)) - (parseFloat(data2[key].chloride) + parseFloat(data2[key].sulfate));
+            ansy.push(b);
+        }
+        // console.log(ansy);
+
+        TESTER = document.getElementById('chadha');
+        Plotly.newPlot(
+            TESTER,
+            [
+                {
+                    x: ansx,
+                    y: ansy,
+                    mode: "markers+text",
+                    type: "scatter",
+                    text: temp,
+                    textposition: "top center",
+                    textfont: {
+                        color: 'black',
+                        family: "Arial Black, sans-serif"
+                    },
+                    marker: { size: 8 },
+                },
+            ],
+            {
+                xaxis: {
+                    title:"Milliequivalents/Liter (meq/L) (Ca2+ + Mg2+)-(Na+ + K+)",
+                    titlefont: { 
+                        size: 12 
+                    },
+                    range: [-100, 100],
+                    zeroline: true, 
+                },
+                yaxis: {
+                    title:"Milliequivalents/Liter (meq/L) (CO3- + HCO3-)-(Cl- + SO42-)",
+                    titlefont: { 
+                        size: 12 
+                    },
+                    range: [-100, 100], 
+                    zeroline: true, 
+                },
+                annotations: [
+                    {
+                        x: 75,
+                        y: 75,
+                        xref: 'x',
+                        yref: 'y',
+                        text: '(Ca-Mg-HCO3)',
+                        showarrow: false,
+                    },
+                    {
+                        x: -75,
+                        y: 75,
+                        xref: 'x',
+                        yref: 'y',
+                        text: '(Na-HCO3)',
+                        showarrow: false,
+                    },
+                    {
+                        x: -75,
+                        y: -75,
+                        xref: 'x',
+                        yref: 'y',
+                        text: '(Na-Cl)',
+                        showarrow: false,
+                    },
+                    {
+                        x: 75,
+                        y: -75,
+                        xref: 'x',
+                        yref: 'y',
+                        text: '(Ca-Mg-Cl)',
+                        showarrow: false,
+                    }
+                ],
+            }
+        );
+           
+    </script>
+
+
+<script>
+    const data = JSON.parse('<%- data %>');
+    let urls = [];
+    
+    window.addEventListener('load', () => {
+        const select_year = document.getElementById('select_year');
+        for (var key in data) {
+            url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + data[key].latitude + "&lon=" + data[key].longitude + "";
+            urls.push(url);
+        }
+
+
+        for (var key in data) {
+            const option = document.createElement('option');
+            option.value = data[key]["date"].split("-")[0];
+            option.textContent = data[key]["date"].split("-")[0];
+            select_year.appendChild(option);
+        }
+
+        function getAddress(url) {
+            return fetch(url)
+                .then(res => {
+                    return res.json();
+                })
+                .then(data => {
+                    return data.display_name;
+                })
+        }
+
+        Promise.all(
+            urls.map(getAddress)
+        ).then((address) => {
+            for (var i = 0; i < address.length; i++) {
+                document.getElementById(`address${i}`).innerHTML = address[i];
+                document.getElementById(`address1${i}`).innerHTML = address[i];
+                document.getElementById(`address2${i}`).innerHTML = address[i];
+                let add = address[i].split(", ");
+                barLabel.push(add[0]);
+            }
+            setTimeout(() => {
+                //Bar Chart
+                var canvas = document.getElementById("barChart");
+                var config = {
+                    type: "bar",
+                    data: {
+                        labels: barLabel,
+                        datasets: [{
+                            label: 'Water Quality Index',
+                            data: barData,
+                            backgroundColor: barbgColor,
+                            borderColor: barborderColor,
+                            border: 1,
+                            maxBarThickness: 14
+                        }
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'Address' } },
+                            y: { title: { display: true, text: 'Water Quality Index' } }
+                        }
+                    }
+                }
+                var barChart = new Chart(canvas, config);
+
+
+                var canvas1 = document.getElementById("barChart1");
+                var config1 = {
+                    type: "bar",
+                    data: {
+                        labels: barLabel,
+                        datasets: [{
+                            label: 'Sodium Adsorption Ratio',
+                            data: barData1,
+                            backgroundColor: barbgColor,
+                            borderColor: barborderColor,
+                            border: 1,
+                            maxBarThickness: 14
+                        }
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'Address' } },
+                            y: { title: { display: true, text: 'Sodium Adsorption Ratio' } }
+                        }
+                    }
+                }
+                var barChart1 = new Chart(canvas1, config1);
+
+
+                var canvas2 = document.getElementById("barChart2");
+                var config2 = {
+                    type: "bar",
+                    data: {
+                        labels: barLabel,
+                        datasets: [{
+                            label: 'Sodium percentage',
+                            data: barData2,
+                            backgroundColor: barbgColor,
+                            borderColor: barborderColor,
+                            border: 1,
+                            maxBarThickness: 14
+                        }
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'Address' } },
+                            y: { title: { display: true, text: 'Sodium percentage(%)' } }
+                        }
+                    }
+                }
+                var barChart2 = new Chart(canvas2, config2);
+            }, 1000);
+        })
+    });
+
+///
+    var barLabel = [];
+    var barData = [];
+    var barbgColor = [];
+    var barborderColor = [];
+
+    var barData1 = [];
+    var barbgColor1 = [];
+    var barborderColor1 = [];
+
+    var barData2 = [];
+    var barbgColor2 = [];
+    var barborderColor2 = [];
+
+    //map
+    var map = L.map('siteMap').setView([24.3243, 85.5216], 5);
+    var redIcon = L.icon({
+        iconUrl: '/img/red_dot.png',
+        iconSize: [80, 80],
+    });
+    var darkGreenIcon = L.icon({
+        iconUrl: '/img/darkGreen_dot.png',
+        iconSize: [80, 80],
+    });
+    var lightGreenIcon = L.icon({
+        iconUrl: '/img/lightGreen_dot.png',
+        iconSize: [80, 80],
+    });
+    var yellowIcon = L.icon({
+        iconUrl: '/img/yellow_dot.png',
+        iconSize: [80, 80],
+    });
+    var orangeIcon = L.icon({
+        iconUrl: '/img/orange_dot.png',
+        iconSize: [80, 80],
+    });
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const tiles = L.tileLayer(tileUrl, { attribution });
+    tiles.addTo(map);
+    var legend = L.control({
+        position: "bottomleft"
+    });
+
+    //legend
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "legend");
+        div.innerHTML += '<h4>Water Quality Status</h4>';
+        div.innerHTML += '<i style="background: var(--bs-green)"></i><span>Excellent</span><br>';
+        div.innerHTML += '<i style="background: #16c172"></i><span>Good</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-yellow)"></i><span>Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-orange)"></i><span>Very Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-danger)"></i><span>Unsuitable for drinking</span><br>';
+        return div;
+    }
+    legend.addTo(map);
+
+    //markers with tooltip
+    for (var key in data) {
+        let html = '';
+        let temp = [];
+        for (var item in data[key]) {
+            // console.log(item)
+                let unit = '';
+                let temp1 = '';
+            
+                if (item === 'water_quality_index' | item === 'hazard_index' | 
+                     item === 'date')
+                    html += "<span>" + item + " : " + data[key][item] + " "+ unit +"</span><br>";
+                
+        }
+        // console.log(data[key].water_quality_index);
+
+        if (data[key].water_quality_index >= 0 && data[key].water_quality_index <= 25) {
+            L.marker([data[key].latitude, data[key].longitude], { icon: darkGreenIcon })
+                .addTo(map)
+                .bindTooltip(html)
+                .closeTooltip();
+        }
+        else if (data[key].water_quality_index > 25 && data[key].water_quality_index <= 50) {
+            L.marker([data[key].latitude, data[key].longitude], { icon: lightGreenIcon })
+                .addTo(map)
+                .bindTooltip(html)
+                .closeTooltip();
+        }
+        else if (data[key].water_quality_index > 50 && data[key].water_quality_index <= 75) {
+            L.marker([data[key].latitude, data[key].longitude], { icon: yellowIcon })
+                .addTo(map)
+                .bindTooltip(html)
+                .closeTooltip();
+        }
+        else if (data[key].water_quality_index > 75 && data[key].water_quality_index <= 100) {
+            L.marker([data[key].latitude, data[key].longitude], { icon: orangeIcon })
+            .addTo(map)
+                .bindTooltip(html)
+                .closeTooltip();
+        }
+        else if (data[key].water_quality_index > 100) {
+            L.marker([data[key].latitude, data[key].longitude], { icon: redIcon })
+                .addTo(map)
+                .bindTooltip(html)
+                .closeTooltip();
+        }
+    }
+
+    var tbody = document.getElementById("tbody");
+    var tbody1 = document.getElementById("tbody1");
+    var tbody2 = document.getElementById("tbody2");
+    var bg_color = 'bg-white';
+
+    //hazard index
+    var bg_color_child, bg_color_male, bg_color_female;
+
+    var i = 0;
+    for (var key in data) {
+        barData.push(data[key].water_quality_index);
+        barData1.push(data[key].sar);
+        barData2.push(data[key].Na_per);
+
+
+        if (data[key].water_quality_index >= 0 && data[key].water_quality_index <= 25) {
+            var wqi_class = 'Excellent';
+            bg_color = 't-1';
+            barbgColor.push("rgba(25, 135, 84, 0.8)");
+            barborderColor.push("rgb(0, 0, 0)");
+        }
+        else if (data[key].water_quality_index > 25 && data[key].water_quality_index <= 50) {
+            var wqi_class = 'Good';
+            bg_color = 't-2';
+            barbgColor.push("rgba(22, 193, 114, 0.8)");
+            barborderColor.push("rgb(0, 0, 0)");
+        }
+        else if (data[key].water_quality_index > 50 && data[key].water_quality_index <= 75) {
+            var wqi_class = 'Poor';
+            bg_color = 't-3';
+            barbgColor.push("rgba(255, 193, 7, 0.8)");
+            barborderColor.push("rgb(0, 0, 0)");
+        }
+        else if (data[key].water_quality_index > 75 && data[key].water_quality_index <= 100) {
+            var wqi_class = 'Very Poor';
+            bg_color = 't-4';
+            barbgColor.push("rgba(253, 126, 20, 0.8)");
+            barborderColor.push("rgb(0, 0, 0)");
+        }
+        else if (data[key].water_quality_index > 100) {
+            var wqi_class = 'Unsuitable for drinking';
+            bg_color = 't-5';
+            barbgColor.push("rgba(220, 53, 69, 0.8)");
+            barborderColor.push("rgb(0, 0, 0)");
+        }
+
+        //Hazard index
+        if (data[key].hazard_index.male < 1) {
+        health_risk_male = "No Risk";
+        bg_color_male = "t-1";
+        } else {
+        health_risk_male = "High Risk";
+        bg_color_male = "t-5";
+        }
+
+        if (data[key].hazard_index.female < 1) {
+        health_risk_female = "No Risk";
+        bg_color_female = "t-1";
+        } else {
+        health_risk_female = "High Risk";
+        bg_color_female = "t-1";
+        }
+
+        if (data[key].hazard_index.child < 1) {
+        health_risk_child = "No Risk";
+        bg_color_child = "t-1";
+        } else {
+        health_risk_child = "High Risk";
+        bg_color_child = "t-5";
+        }
+
+        //SAR
+        if(data[key].sar<20){
+            irrigation_purpose_Na = "Excellent";
+            barbgColor1.push("rgba(25, 135, 84, 0.8)");
+            barborderColor1.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].sar<=40){
+            irrigation_purpose_Na = "Good";
+            barbgColor1.push("rgba(22, 193, 114, 0.8)");
+            barborderColor1.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].sar<=60){
+            irrigation_purpose_Na = "Permissable";
+            barbgColor1.push("rgba(255, 193, 7, 0.8)");
+            barborderColor1.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].sar<=80){
+            irrigation_purpose_Na = "Doubtful";
+            barbgColor1.push("rgba(253, 126, 20, 0.8)");
+            barborderColor1.push("rgb(0, 0, 0)");
+        }
+        else{
+            irrigation_purpose_Na = "Unsuitable";
+            barbgColor1.push("rgba(220, 53, 69, 0.8)");
+            barborderColor1.push("rgb(0, 0, 0)");
+        } 
+
+        //Na%
+        if(data[key].Na_per<10){
+            irrigation_purpose = "Excellent"
+        }
+        else if(data[key].Na_per<=18){
+            irrigation_purpose = "Good"
+        }
+        else if(data[key].Na_per<=26){
+            irrigation_purpose = "Doubtful"
+        }
+        else{
+            irrigation_purpose = "Unsuitable"
+        } 
+
+
+        html = '<tr class=' + bg_color + ' >\
+                            <td>'+ (i + 1) + '</td>\
+                            <td  id="address'+ i +'"></td>\
+                            <td >'+ parseFloat(data[key].latitude).toFixed(4) + '</td>\
+                            <td >'+ parseFloat(data[key].longitude).toFixed(4) + '</td>\
+                            <td >'+ data[key].water_quality_index + '</td>\
+                            <td >'+ wqi_class + '</td>\
+                            <td  class=' +bg_color_male +'>' +health_risk_male+' (HI='+data[key].hazard_index.male +')'+'</td>\
+                            <td class=' +bg_color_female +'>' +health_risk_female +' (HI='+data[key].hazard_index.female+')'+'</td>\
+                           <td  class=' +bg_color_child +'>'+health_risk_child+' (HI='+data[key].hazard_index.child +')'+'</td>\
+                        </tr>';
+        html1 = '<tr class=' + bg_color + ' >\
+                            <td >'+ (i + 1) + '</td>\
+                            <td  id="address1'+ i +'"></td>\
+                            <td >'+ parseFloat(data[key].latitude).toFixed(4) + '</td>\
+                            <td >'+ parseFloat(data[key].longitude).toFixed(4) + '</td>\
+                            <td >'+ parseFloat(data[key].sar).toFixed(3) + '</td>\
+                            <td >'+ irrigation_purpose + '</td>\
+                            <td >'+ parseFloat(data[key].Na_per).toFixed(3) + '</td>\
+                            <td >'+ irrigation_purpose_Na + '</td>\
+                        </tr>';
+
+         html2 = '<tr class=' + bg_color + ' >\
+                            <td >'+ (i + 1) + '</td>\
+                            <td  id="address2'+ i +'"></td>\
+                            <td >'+ parseFloat(data[key].latitude).toFixed(4) + '</td>\
+                            <td >'+ parseFloat(data[key].longitude).toFixed(4) + '</td>\
+                        </tr>';
+        tbody.innerHTML +=html;
+        tbody1.innerHTML +=html1;
+        tbody2.innerHTML +=html2;
+        i++;
+    }
+
+</script>
+
+
+<!-- Fetching user data for pdf -->
+<script>
+    async function fetchUserData() {
+        // Retrieve user details from user input 
+        const data4 = JSON.parse('<%- data %>');
+        const udata = JSON.parse('<%- userdata %>');
+        
+        const userDetails = {
+            name: udata.name,
+            email: udata.email,
+            country: udata.country,
+            //parameters: JSON.stringify(data4),
+        };
+
+        //Location Name
+
+        let urls = [];
+        let cities = [];
+
+        // Construct URLs for fetching address using latitude and longitude
+        for (let key in data4) {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${data4[key].latitude}&lon=${data4[key].longitude}`;
+            urls.push(url);
+        }
+
+        // Fetch addresses for each location
+        const getAddress = async (url) => {
+            const response = await fetch(url);
+            const data4 = await response.json();
+            return data4.display_name;
+        };
+
+        try {
+            // Fetch addresses asynchronously
+            const addresses = await Promise.all(urls.map(getAddress));
+            
+            // Extract city names from addresses
+            cities = addresses.map(address => {
+                const city = address.split(", ")[0];
+                return city;
+            });
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
+        }
+        
+        // Extract parameters 
+        const parameters = Object.values(data4).map((entry, index) => ({
+                Location: cities[index] || '-',
+                Date: entry.date,
+                pH: entry.ph || '-',
+                Temperature: entry.temperature || '-',
+                Turbidity: entry.turbidity || '-',
+                "Electrical Conductivity": entry.electrical_conductivity || '-',       
+                Hardness: entry.hardness || '-',       
+                Alkalinity: entry.alkalinity || '-',       
+                TDS: entry.total_dissolved_solids || '-',       
+                "Dissolved Oxygen": entry.dissolved_oxygen || '-',       
+                BOD: entry.biological_oxygen_demand || '-',       
+                COD: entry.chemical_oxygen_demand || '-',
+                "Potassium Ion": entry.potassiumion || '-',
+                "Magnesium Ion": entry.magnesiumion || '-',
+                "Calcium Ion": entry.calciumion || '-',
+                "Sodium Ion": entry.sodiumion || '-',       
+                Ammonium: entry.ammonium || '-',       
+                Chloride: entry.chloride || '-',
+                Carbonate: entry.carbonate || '-',
+                Bicarbonate: entry.bicarbonate || '-',
+                Sulfate: entry.sulfate || '-',
+                Nitrate: entry.nitrate || '-',
+                Nitrite: entry.nitrite || '-',
+                Phosphate: entry.phosphate || '-',
+                Fluoride: entry.fluoride || '-',
+            }));
+
+        return { userDetails, parameters };
+    }
+</script>
+
+
+<!--Generating PDF -->
+<!-- <script>
+    async function generatePDF() {
+        const { userDetails, parameters } = await fetchUserData();
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+        orientation: 'p', 
+        unit: 'mm', 
+        compress: true 
+        });
+
+        //-----------page1----------------
+        doc.setFont('times', 'normal');
+
+        // header
+        const headerImg1 = new Image();
+        headerImg1.src = '/img/logo-no-background.png'; 
+        const headerImg2 = new Image();
+        headerImg2.src = '/img/IIT_Kharagpur_Logo.png'; 
+
+        doc.addImage(headerImg1, 'PNG', 8, 8, 18, 18);
+        doc.addImage(headerImg2, 'PNG', 136, 8, 17, 17);
+        
+        doc.setFontSize(10);
+        doc.text('Water', 28,13);
+        doc.text('Quality', 28, 18);
+        doc.text('Assessment', 28, 23);
+
+        doc.setFontSize(8.5);
+        doc.text('Water Sensing and Simulation Lab', 155,10);
+        doc.text('Agricultural and Food Engineering', 155,15);
+        doc.text('Indian Institute of Technology Kharagpur', 155, 20);
+        doc.text('Kharagpur, West Bengal - 721302', 155, 25);
+
+        doc.setFontSize(17);
+        doc.text('Water Quality Report ', 74, 40);
+
+        doc.line(5,30,205,30,'S');
+
+        // title
+        doc.setFontSize(14);
+        doc.text('Drinking Water & Irrigation Water', 64, 50);
+
+        doc.setFontSize(12);
+        doc.setFont('calibri', 'bold');
+        doc.text('User Information', 10, 60);
+        doc.setFont('times', 'normal');
+        doc.text(`Name: ${userDetails.name}`, 10, 67);
+        doc.text(`Email: ${userDetails.email}`, 10, 74);
+        doc.text(`Country: ${userDetails.country}`, 10, 81);
+        
+        doc.setFont('calibri', 'bold');
+        doc.text('Interpretation', 10, 90);
+        doc.setFont('times', 'normal');
+        
+        
+
+        doc.addPage();
+
+        const id_dw = ["mapb", "wqRisk", "wqiStatus"];
+        const id_iw = ["irrigationSuit", "sarStatus", "NaStatus"];
+        const id_dia = ["wilcoxD", "chadhaD"];
+        const content=[],canvas=[], imgData=[], imgWidth=[], imgHeight=[];
+
+        //-----------page2----------------
+        //Drinking
+        doc.setFontSize(15);
+        doc.text('Drinking Water Analysis', 75, 10);
+        doc.line(6,15,204,15,'S');
+
+        
+        let y_d=20;
+
+        for (let i = 0; i < id_dw.length; i++) {
+        content[i] = document.querySelector('#' + id_dw[i]); 
+        canvas[i] = await html2canvas(content[i], { scale: 1, useCORS: true });
+        imgData[i] = canvas[i].toDataURL('image/jpeg', 1.0); 
+        imgWidth[i] = 190; // A4 width in mm
+        imgHeight[i] = canvas[i].height * imgWidth[i] / canvas[i].width;
+
+        doc.addImage(imgData[i], 'JPEG', 10, y_d, imgWidth[i], imgHeight[i]);
+        y_d += imgHeight[i] + 10;
+
+        };
+
+        doc.addPage();
+
+        //-----------page3----------------
+        // Irrigation
+
+        doc.setFontSize(15);
+        doc.text('Irrigation Water Analysis', 75, 10);
+        doc.line(6,15,204,15,'S');
+        
+        let y_i=20;
+
+        for (let i = 0; i < id_iw.length; i++) {
+        content[i+3] = document.querySelector('#' + id_iw[i]); 
+        canvas[i+3] = await html2canvas(content[i+3], { scale: 1, useCORS: true });
+        imgData[i+3] = canvas[i+3].toDataURL('image/jpeg', 1.0); 
+        imgWidth[i+3] = 190; // A4 width in mm
+        imgHeight[i+3] = canvas[i+3].height * imgWidth[i+3] / canvas[i+3].width;
+
+        doc.addImage(imgData[i+3], 'JPEG', 10, y_i, imgWidth[i+3], imgHeight[i+3]);
+        y_i += imgHeight[i+3] + 10;
+
+        };
+
+        doc.addPage();
+
+        //--------page4--------
+        //Diagram
+
+        let y_p=10;
+
+        for (let i = 0; i < id_dia.length; i++) {
+        content[i+6] = document.querySelector('#' + id_dia[i]); 
+        canvas[i+6] = await html2canvas(content[i+6], { scale: 1, useCORS: true });
+        imgData[i+6] = canvas[i+6].toDataURL('image/jpeg', 1.0); 
+        imgWidth[i+6] = 190; // A4 width in mm
+        imgHeight[i+6] = canvas[i+6].height * imgWidth[i+6] / canvas[i+6].width;
+
+        doc.addImage(imgData[i+6], 'JPEG', 10, y_p, imgWidth[i+6], imgHeight[i+6]);
+        y_p += imgHeight[i+6] + 10;
+
+        };
+
+        doc.addPage();
+
+        //--------appendix ---------------------
+
+        doc.setFontSize(15);
+        doc.text('Appendix', 85, 10);
+        doc.line(6,15,204,15,'S');
+
+      
+        doc.setFontSize(10);
+        const transposedData = {};
+        parameters.forEach(parameter => {
+            for (const [key, value] of Object.entries(parameter)) {
+                if (!transposedData[key]) {
+                    transposedData[key] = [];
+                }
+                transposedData[key].push(value);
+            }
+        });
+
+        // Draw table
+        const startY = 20;
+        const cellWidth = 40;
+        const cellHeight = 10;
+        let currentY = startY;
+
+        for (const [header, values] of Object.entries(transposedData)) {
+            doc.setFillColor(180, 180, 180);
+            doc.rect(10, currentY, cellWidth, cellHeight, 'F');
+            doc.setTextColor(0, 0, 0);
+            doc.text(header, 10 + cellWidth / 2, currentY + cellHeight / 2, { align: 'center' });
+
+            for (let i = 0; i < values.length; i++) {
+                doc.setFillColor(245, 245, 245);
+                doc.rect((i + 1) * cellWidth + 10, currentY, cellWidth, cellHeight, 'F');
+                doc.setTextColor(0, 0, 0);
+                doc.text(values[i].toString(), (i + 1) * cellWidth + 10 + cellWidth / 2, currentY + cellHeight / 2, { align: 'center' });
+            }
+            
+            currentY += cellHeight;
+        }
+
+        // doc.save('document.pdf', { compress: true });
+        doc.save('document.pdf');
+
+    }
+</script> -->
+
+<script>
+    async function generatePDF() {
+        // Fetch user details and parameters
+        const { userDetails, parameters } = await fetchUserData();
+    
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            compress: true
+        });
+    
+        // Page 1
+        doc.setFont('times', 'normal');
+    
+        // Header
+        const headerImg1 = new Image();
+        headerImg1.src = '/img/logo-no-background.png';
+        const headerImg2 = new Image();
+        headerImg2.src = '/img/IIT_Kharagpur_Logo.png';
+    
+        doc.addImage(headerImg1, 'PNG', 8, 8, 18, 18);
+        doc.addImage(headerImg2, 'PNG', 136, 8, 17, 17);
+    
+        doc.setFontSize(10);
+        doc.text('Water', 28, 13);
+        doc.text('Quality', 28, 18);
+        doc.text('Assessment', 28, 23);
+    
+        doc.setFontSize(8.5);
+        doc.text('Water Sensing and Simulation Lab', 155, 10);
+        doc.text('Agricultural and Food Engineering', 155, 15);
+        doc.text('Indian Institute of Technology Kharagpur', 155, 20);
+        doc.text('Kharagpur, West Bengal - 721302', 155, 25);
+    
+        doc.setFontSize(17);
+        doc.text('Water Quality Report ', 74, 40);
+    
+        doc.line(5, 30, 205, 30, 'S');
+    
+        // Title
+        doc.setFontSize(14);
+        doc.text('Drinking Water & Irrigation Water', 64, 50);
+    
+        doc.setFontSize(12);
+        doc.setFont('calibri', 'bold');
+        doc.text('User Information', 10, 60);
+        doc.setFont('times', 'normal');
+        doc.text(`Name: ${userDetails.name}`, 10, 67);
+        doc.text(`Email: ${userDetails.email}`, 10, 74);
+        doc.text(`Country: ${userDetails.country}`, 10, 81);
+    
+        doc.setFont('calibri', 'bold');
+        doc.text('Interpretation', 10, 90);
+        doc.setFont('times', 'normal');
+    
+        doc.addPage();
+    
+        // Drinking Water Analysis (Page 2)
+        doc.setFontSize(15);
+        doc.text('Drinking Water Analysis', 75, 10);
+        doc.line(6, 15, 204, 15, 'S');
+    
+        const id_dw = ["mapb", "wqRisk", "wqiStatus"];
+        const id_iw = ["irrigationSuit", "sarStatus", "NaStatus"];
+        const id_dia = ["wilcoxD", "chadhaD"];
+    
+        let y_d = 20;
+    
+        for (let i = 0; i < id_dw.length; i++) {
+            const content = document.querySelector('#' + id_dw[i]);
+            const canvas = await html2canvas(content, { scale: 1, useCORS: true });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgWidth = 190; // A4 width in mm
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+    
+            doc.addImage(imgData, 'JPEG', 10, y_d, imgWidth, imgHeight);
+            y_d += imgHeight + 10;
+        }
+    
+        doc.addPage();
+    
+        // Irrigation Water Analysis (Page 3)
+        doc.setFontSize(15);
+        doc.text('Irrigation Water Analysis', 75, 10);
+        doc.line(6, 15, 204, 15, 'S');
+    
+        let y_i = 20;
+    
+        for (let i = 0; i < id_iw.length; i++) {
+            const content = document.querySelector('#' + id_iw[i]);
+            const canvas = await html2canvas(content, { scale: 1, useCORS: true });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgWidth = 190; // A4 width in mm
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+    
+            doc.addImage(imgData, 'JPEG', 10, y_i, imgWidth, imgHeight);
+            y_i += imgHeight + 10;
+        }
+    
+        doc.addPage();
+    
+        // Diagram (Page 4)
+        let y_p = 10;
+    
+        for (let i = 0; i < id_dia.length; i++) {
+            const content = document.querySelector('#' + id_dia[i]);
+            const canvas = await html2canvas(content, { scale: 1, useCORS: true });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgWidth = 190; // A4 width in mm
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+    
+            doc.addImage(imgData, 'JPEG', 10, y_p, imgWidth, imgHeight);
+            y_p += imgHeight + 10;
+        }
+    
+        doc.addPage();
+    
+        // Appendix
+        doc.setFontSize(15);
+        doc.text('Appendix', 85, 10);
+        doc.line(6, 15, 204, 15, 'S');
+    
+        doc.setFontSize(10);
+        const transposedData = {};
+        parameters.forEach(parameter => {
+            for (const [key, value] of Object.entries(parameter)) {
+            if (!transposedData[key]) {
+                transposedData[key] = [];
+            }
+            transposedData[key].push(value);
+            }
+        });
+    
+        // Draw table
+        const startY = 20;
+        const cellWidth = 40;
+        const cellHeight = 10;
+        let currentY = startY;
+    
+        for (const [header, values] of Object.entries(transposedData)) {
+            doc.setFillColor(180, 180, 180);
+            doc.rect(10, currentY, cellWidth, cellHeight, 'F');
+            doc.setTextColor(0, 0, 0);
+            doc.text(header, 10 + cellWidth / 2, currentY + cellHeight / 2, { align: 'center' });
+    
+            for (let i = 0; i < values.length; i++) {
+            doc.setFillColor(245, 245, 245);
+            doc.rect((i + 1) * cellWidth + 10, currentY, cellWidth, cellHeight, 'F');
+            doc.setTextColor(0, 0, 0);
+            doc.text(values[i].toString(), (i + 1) * cellWidth + 10 + cellWidth / 2, currentY + cellHeight / 2, { align: 'center' });
+            }
+    
+            currentY += cellHeight;
+        }
+    
+        // Generate filename based on current date and time
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const filename = `${year}-${month}-${day}_${hours}${minutes}${seconds}_document.pdf`;
+
+        // Save PDF with dynamic filename
+        doc.save(filename);
+
+        // Convert PDF to Blob and send to server
+        const pdfBlob = doc.output('blob');
+        const formData = new FormData();
+        formData.append('pdf', pdfBlob, filename);
+    
+        // Send the PDF to the server
+        fetch('/upload_pdf', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('PDF uploaded successfully!');
+            } else {
+                alert(`Failed to upload PDF: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to upload PDF due to a network or server error.');
+        });
+    }
+</script>

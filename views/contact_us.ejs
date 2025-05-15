@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/styles/contact_us.style.css">
+
+<main class="main-contact">
+    <div class="contact-container">
+        <div class="contact-form">
+            <h2 class="contact-heading">Contact Us</h2>
+
+            <% if (successMessage) { %>
+                <div class="alert alert-success">
+                    <%= successMessage %>
+                </div>
+            <% } %>
+
+            <form action="/contact" method="POST">
+                <div class="form-group">
+                    <label for="name">NAME</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">SUBJECT</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="body">MESSAGE</label>
+                    <textarea id="body" name="body" rows="5" class="form-control" required></textarea>
+                </div>
+                <button class="btn btn-contact" type="submit">Send</button>
+            </form>
+        </div>
+        <div class="contact-info">
+            <div class="contact-info-content">
+                <h3 class="reach-us">Need Help?</h3>
+                <p class="help-text">Reach out to us for assistance. We’re here to help!</p>
+                <button class="btn btn-help" onclick="window.location.href='/faq'">FAQ</button>
+            </div>
+        </div>
+    </div>
+</main>

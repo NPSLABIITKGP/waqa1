@@ -1,0 +1,469 @@
+<link rel="stylesheet" href="/styles/output2.style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/scripts/plot_charts.js"></script> 
+<script src="/scripts/plot_pie_charts.js"></script>
+<script src="/scripts/output3_pdf.js"></script>
+
+<main>
+    <div class="container d-flex w-auto justify-content-between mx-0 px-0">
+        <div id="google-and-counter">
+            <div id="google_element"></div>
+        </div>
+    </div>
+    <div class="container-fluid overflow-auto">
+
+        <div class="container d-flex flex-column align-items-center">
+
+            <div class="d-flex justify-content-end align-items-center w-100 mb-2 mt-2 px-2 gap-2">
+                <button class="btn btn-outline-primary" onclick="generatePDF()">
+                    🖨️ Print
+                </button>
+                <a href="/welcome" class="btn btn-outline-primary">
+                    🔙 Return to Welcome Page
+                </a>
+            </div>
+
+            <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                <h3 class="wqi_header">Irrigation Water Quality Analysis</h3>
+            </div>
+
+            <div id="mapd" class="container d-flex flex-column mb-4">
+                <div id="siteMap" class="map-container"></div>
+            </div>
+
+            <div class="container d-flex flex-column align-items-center">
+                <section id="irrigation_Suitability" class="container d-flex flex-column align-items-center">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Irrigation Suitability</h3>
+                    </div>
+                    <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                        <table class="table table-bordered text-center text-wrap">
+                            <thead>                
+                                <tr class="t-h">
+                                    <th rowspan="2">Sl.no</th>
+                                    <th colspan="3" >Location</th> 
+                                    <th rowspan="2" >SAR</th> 
+                                    <th rowspan="2" >Irrigation suitability based on SAR</th>
+                                    <th rowspan="2">Na%</th> 
+                                    <th rowspan="2">Irrigation suitability based on Na%</th> 
+                                </tr>
+                                <tr class="t-h">
+                                    <th>Address</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>              
+                                </tr>
+                            </thead>
+                            <tbody id="tbody1"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="sar_Status" class="container d-flex flex-column align-items-center mt-4">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Location-wise Sodium Adsorption Ratio</h3>
+                    </div>
+                    <canvas id="barChart1" class="chart-container"></canvas>
+                </section>
+
+                <section id="Na_Status" class="container d-flex flex-column align-items-center mt-4">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Location-wise Sodium Percentage</h3>
+                    </div>
+                    <canvas id="barChart2" class="chart-container"></canvas>
+                </section>
+
+                <section id="wilcox_D" class="container d-flex flex-column align-items-center mt-4">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Wilcox Diagram</h3>
+                    </div>
+                    <div id="wilcox" style="max-height: 500px;"></div>
+                </section>
+
+                <section id="chadha_D" class="container d-flex flex-column align-items-center mt-4">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Chadha's Diagram (Modified Piper Diagram)</h3>
+                    </div>
+                    <div id="chadha" style="max-height: 500px;"></div>
+                </section>
+
+                <section id="gibbs_D" class="container d-flex flex-column align-items-center mt-4">
+                    <div class="row w-100 text-center text-white bg-primary mb-2" style="border-radius: 5px;">
+                        <h3 class="wqi_header">Gibbs Diagram</h3>
+                    </div>
+                    <div class="row w-100">
+                        <div class="col-md-6 mb-3">
+                            <div id="gibbs1" style="max-height: 500px; border-radius: 10px;"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div id="gibbs2" style="max-height: 500px; border-radius: 10px;"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary pdf-button" onclick="generatePDF()">Generate PDF</button>
+                    <div class="text-muted">Click Button To Download PDF</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const data = JSON.parse('<%- data %>');
+    plot_charts(data);
+    // console.log(data);
+    let mapURLs = [];
+    let barLabels = [];
+
+    let barData1 = [];
+    let barBgColors1 = [];
+    let barBorderColors1 = [];
+
+    let barData2 = [];
+    let barBgColors2 = [];
+    let barBorderColors2 = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const locations = Object.keys(data).map(key => ({
+            lat: data[key].latitude,
+            lon: data[key].longitude,
+            key: key
+        }));
+    
+        const addressesToUpdate = [];
+        locations.forEach(loc => {
+            const { lat, lon, key } = loc;
+            const state = data[key].state || '';
+            const district = data[key].district || '';
+            const block = data[key].block || '';
+            const locationName = data[key].location || '';
+    
+            if (state && district && block && locationName) {
+                const fullAddress = `${locationName}, ${block}, ${district}, ${state}`;
+                barLabels.push(locationName);
+                document.getElementById(`addressIrrigation${key}`).innerHTML = fullAddress;
+            } else if (state && district && locationName || block) {
+                const fullAddress = `${locationName}, ${district}, ${state}`;
+                barLabels.push(locationName);
+                document.getElementById(`addressIrrigation${key}`).innerHTML = fullAddress;
+            } else {
+                addressesToUpdate.push(loc);
+            }
+        });
+    
+        // console.log(addressesToUpdate);
+    
+        async function getBatchAddress(locations) {
+            try {
+                const response = await fetch('/reverse-geocode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ locations }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`Server responded with status ${response.status}`);
+                }
+    
+                const data = await response.json();
+                // console.log(data);
+                return data.addresses;
+            } catch (error) {
+                console.error("Error fetching batch addresses:", error);
+                return [];
+            }
+        }
+    
+        if (addressesToUpdate.length > 0) {
+            const addresses = await getBatchAddress(addressesToUpdate);
+            addresses.forEach((address, i) => {
+                const { key, display_name } = address;
+                document.getElementById(`addressIrrigation${key}`).innerHTML = display_name || "Address not found";
+    
+                const addressParts = display_name.split(", ");
+                barLabels.push(addressParts[0] || `Location ${key}`);
+            });
+        }
+    
+        renderChartsOutput3();
+    });
+    
+
+    /* window.addEventListener('load', () => {
+
+        // Loop through data and push reverse geocoding URLs or use existing address parts
+        for (var key in data) {
+            const lat = data[key].latitude;
+            const lon = data[key].longitude;
+            
+            // Check if address details are already present
+            const state = data[key].state || '';
+            const district = data[key].district || '';
+            const block = data[key].block || '';
+            const location = data[key].location || '';
+
+            if ((state && district && block && location) || (state && district && location || block)) {
+                // If all address parts are available, use them directly
+                const fullAddress = `${location}, ${block}, ${district}, ${state}`;
+                barLabels.push(location);
+                document.getElementById(`addressIrrigation${key}`).innerHTML = fullAddress;
+            } else {
+                // If address parts are not available, make the API call
+                mapURLs.push({ lat, lon });
+            }
+        }
+
+        // Updated getAddress function to hit your backend endpoint instead of external API
+        function getAddress(lat, lon) {
+            return fetch(`/reverse-geocode?lat=${lat}&lon=${lon}`) // Backend API
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => data.display_name)
+                .catch(error => {
+                    console.error("There was a problem with the fetch operation:", error);
+                    return "Address not found";
+                });
+        }
+
+        // Use Promise.all to fetch remaining addresses
+        if (mapURLs.length > 0) {
+            Promise.all(mapURLs.map(({ lat, lon }) => getAddress(lat, lon))).then((addresses) => {
+                addresses.forEach((address, i) => {
+                    document.getElementById(`addressIrrigation${i}`).innerHTML = address;
+                    const addressParts = address.split(", ");
+                    barLabels.push(addressParts[0] || `Location ${i + 1}`);
+                });
+
+                // Chart rendering logic...
+                renderChartsOutput3();
+            }).catch(error => {
+                console.error("Error in fetching addresses:", error);
+            });
+        } else {
+            // If no API calls are needed, directly render charts
+            renderChartsOutput3();
+        }
+    }); */
+
+    // Initialize map
+    const map = L.map('siteMap').setView([24.3243, 85.5216], 5);
+    const iconOptions = {
+        iconSize: [20, 20]
+    };
+
+    const redIcon = L.icon({ iconUrl: '/img/location-pin1.png', ...iconOptions });
+    const darkGreenIcon = L.icon({ iconUrl: '/img/location-pin51.png', ...iconOptions });
+    const lightGreenIcon = L.icon({ iconUrl: '/img/location-pin4.png', ...iconOptions });
+    const yellowIcon = L.icon({ iconUrl: '/img/location-pin3.png', ...iconOptions });
+    const orangeIcon = L.icon({ iconUrl: '/img/location-pin2.png', ...iconOptions });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const legend = L.control({ position: "bottomleft" });
+    legend.onAdd = function () {
+        const div = L.DomUtil.create("div", "legend");
+        div.innerHTML += '<h4>Irrigation Quality Status</h4>';
+        div.innerHTML += '<i style="background: var(--bs-green)"></i><span>Excellent</span><br>';
+        div.innerHTML += '<i style="background: #16c172"></i><span>Good</span><br>';
+        // div.innerHTML += '<i style="background: var(--bs-yellow)"></i><span>Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-orange)"></i><span>Very Poor</span><br>';
+        div.innerHTML += '<i style="background: var(--bs-danger)"></i><span>Unsuitable</span><br>';
+        return div;
+    };
+    legend.addTo(map);
+
+    // Add markers to the map
+    for (const key in data) {
+        let tooltipContent = '';
+        for (const item in data[key]) {
+            if (['sar', 'Na_per', 'date'].includes(item)) {
+                tooltipContent += `<span>${item}: ${data[key][item]}</span><br>`;
+            }
+        }
+
+        const { latitude, longitude, sar } = data[key];
+        let icon;
+
+        if (sar >= 0 && sar <= 10) {
+            icon = darkGreenIcon;
+        } else if (sar > 10 && sar <= 18) {
+            icon = lightGreenIcon;
+        } else if (sar > 18 && sar <= 26) {
+            icon = orangeIcon;
+        } else if (sar > 26) {
+            icon = redIcon;
+        }
+
+        L.marker([latitude, longitude], { icon })
+            .addTo(map)
+            .bindTooltip(tooltipContent)
+            .closeTooltip();
+    }
+
+    const tbody1 = document.getElementById("tbody1");
+    let purpose_SAR = [];
+    let purpose_Na = [];
+    let i = 0;
+
+    for (const key in data) {
+        barData1.push(data[key].sar);
+        barData2.push(data[key].Na_per);
+
+        // SAR Classification
+        let irrigation_purpose_SAR;
+        let bg_color1;
+
+        if(data[key].sar < 10){
+            irrigation_purpose_SAR = "Excellent";
+            purpose_SAR.push(irrigation_purpose_SAR);
+            bg_color1 = 't-1';
+            barBgColors1.push("rgba(25, 135, 84, 0.8)");
+            barBorderColors1.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].sar <= 18){
+            irrigation_purpose_SAR = "Good";
+            purpose_SAR.push(irrigation_purpose_SAR);
+            bg_color1 = 't-2';
+            barBgColors1.push("rgba(22, 193, 114, 0.8)");
+            barBorderColors1.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].sar <= 26){
+            irrigation_purpose_SAR = "Doubtful";
+            purpose_SAR.push(irrigation_purpose_SAR);
+            bg_color1 = 't-4';
+            barBgColors1.push("rgba(253, 126, 20, 0.8)");
+            barBorderColors1.push("rgb(0, 0, 0)");
+        }
+        else{
+            irrigation_purpose_SAR = "Unsuitable";
+            purpose_SAR.push(irrigation_purpose_SAR);
+            bg_color1 = 't-5';
+            barBgColors1.push("rgba(220, 53, 69, 0.8)");
+            barBorderColors1.push("rgb(0, 0, 0)");
+        }
+
+        // Na% Classification
+        let irrigation_purpose_Na;
+        let bg_color2;
+        
+        if(data[key].Na_per < 20){
+            irrigation_purpose_Na = "Excellent";
+            purpose_Na.push(irrigation_purpose_Na);
+            bg_color2 = 't-1';
+            barBgColors2.push("rgba(25, 135, 84, 0.8)");
+            barBorderColors2.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].Na_per <= 40){
+            irrigation_purpose_Na = "Good";
+            purpose_Na.push(irrigation_purpose_Na);
+            bg_color2 = 't-2';
+            barBgColors2.push("rgba(22, 193, 114, 0.8)");
+            barBorderColors2.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].Na_per <= 60){
+            irrigation_purpose_Na = "Permissible";
+            purpose_Na.push(irrigation_purpose_Na);
+            bg_color2 = 't-3';
+            barBgColors2.push("rgba(255, 193, 7, 0.8)");
+            barBorderColors2.push("rgb(0, 0, 0)");
+        }
+        else if(data[key].Na_per <= 80){
+            irrigation_purpose_Na = "Doubtful";
+            purpose_Na.push(irrigation_purpose_Na);
+            bg_color2 = 't-4';
+            barBgColors2.push("rgba(253, 126, 20, 0.8)");
+            barBorderColors2.push("rgb(0, 0, 0)");
+        }
+        else{
+            irrigation_purpose_Na = "Unsuitable";
+            purpose_Na.push(irrigation_purpose_Na);
+            bg_color2 = 't-5';
+            barBgColors2.push("rgba(220, 53, 69, 0.8)");
+            barBorderColors2.push("rgb(0, 0, 0)");
+        }
+
+        html1 = '<tr class=' + bg_color1 + ' >\
+                    <td >'+ (i + 1) + '</td>\
+                    <td  id="addressIrrigation'+ i +'"></td>\
+                    <td >'+ parseFloat(data[key].latitude).toFixed(4) + '</td>\
+                    <td >'+ parseFloat(data[key].longitude).toFixed(4) + '</td>\
+                    <td >'+ parseFloat(data[key].sar).toFixed(3) + '</td>\
+                    <td >'+ irrigation_purpose_SAR + '</td>\
+                    <td >'+ parseFloat(data[key].Na_per).toFixed(3) + '</td>\
+                    <td >'+ irrigation_purpose_Na + '</td>\
+                </tr>';
+        tbody1.innerHTML += html1;
+        i++;
+    }
+
+    async function fetchUserData() {
+        // Retrieve user details from user input 
+        const udata = JSON.parse('<%- userdata %>');
+        
+        const userDetails = {
+            name: udata.name,
+            email: udata.email,
+            country: udata.country,
+        };
+
+        // Extract parameters 
+        const parameters = Object.values(data).map((entry, index) => ({
+                Location: barLabels[index] || '-',
+                Date: entry.date,
+                pH: entry.ph || '-',
+                Temperature: entry.temperature || '-',
+                Turbidity: entry.turbidity || '-',
+                "Electrical Conductivity": entry.electrical_conductivity || '-',       
+                Hardness: entry.hardness || '-',       
+                Alkalinity: entry.alkalinity || '-',       
+                TDS: entry.total_dissolved_solids || '-',       
+                "Dissolved Oxygen": entry.dissolved_oxygen || '-',       
+                BOD: entry.biological_oxygen_demand || '-',       
+                COD: entry.chemical_oxygen_demand || '-',
+                "Potassium Ion": entry.potassiumion || '-',
+                "Magnesium Ion": entry.magnesiumion || '-',
+                "Calcium Ion": entry.calciumion || '-',
+                "Sodium Ion": entry.sodiumion || '-',       
+                Ammonium: entry.ammonium || '-',       
+                Chloride: entry.chloride || '-',
+                Carbonate: entry.carbonate || '-',
+                Bicarbonate: entry.bicarbonate || '-',
+                Sulfate: entry.sulfate || '-',
+                Nitrate: entry.nitrate || '-',
+                Nitrite: entry.nitrite || '-',
+                Phosphate: entry.phosphate || '-',
+                Fluoride: entry.fluoride || '-',
+                latitude: entry.latitude,
+                longitude: entry.longitude,
+                sar: entry.sar,
+                purpose_SAR: purpose_SAR[index],
+                Na_per: entry.Na_per,
+                purpose_Na: purpose_Na[index],
+                bgColor: barBgColors1[index],
+            }));
+
+        return { userDetails, parameters };
+    }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement("google_element");
+    }
+</script>

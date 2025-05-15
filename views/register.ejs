@@ -1,0 +1,141 @@
+<!-- <main >
+    <div class="container register-container">
+        <div class="card">
+            <div class="card-header">Register</div>
+            <div class="card-body">
+                <% if (errors && errors.length > 0) { %>
+                    <div class="alert alert-danger">
+                        <ul>
+                            <% errors.forEach(function(error) { %>
+                                <li><%= error.msg %></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                <% } %>
+                <form action="/register" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="">Select your country</option>
+                            <option value="us" data-flag="🇺🇸" data-code="+1">🇺🇸 United States (+1)</option>
+                            <option value="in" data-flag="🇮🇳" data-code="+91">🇮🇳 India (+91)</option>
+                            <option value="gb" data-flag="🇬🇧" data-code="+44">🇬🇧 United Kingdom (+44)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="phone-code">+1</span>
+                            </div>
+                            <input type="text" name="phone" id="phone" class="form-control" aria-describedby="phone-code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                Already have an account? <a href="/login">Login</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country');
+        const phoneCode = document.getElementById('phone-code');
+
+        countrySelect.addEventListener('change', function() {
+            const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+            const code = selectedOption.getAttribute('data-code');
+            phoneCode.textContent = code;
+        });
+    });
+</script> -->
+
+
+<link rel="stylesheet" href="styles/register.style.css">
+
+<main class="main-register">
+    <div class="register-container">
+        <div class="register-form">
+            <h2 class="wel-new">Welcome to the community,</h2>
+            <% if (errors && errors.length > 0) { %>
+                <div class="alert alert-danger">
+                    <ul>
+                        <% errors.forEach(function(error) { %>
+                            <li><%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="name">NAME</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">EMAIL</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="country">COUNTRY</label>
+                    <select id="country" name="country" class="form-control" required>
+                        <option value="">Select your country</option>
+                        <option value="us" data-flag="🇺🇸" data-code="+1">🇺🇸 United States (+1)</option>
+                        <option value="in" data-flag="🇮🇳" data-code="+91">🇮🇳 India (+91)</option>
+                        <option value="gb" data-flag="🇬🇧" data-code="+44">🇬🇧 United Kingdom (+44)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone">PHONE</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="phone-code">+1</span>
+                        </div>
+                        <input type="text" name="phone" id="phone" class="form-control" aria-describedby="phone-code">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-register">REGISTER</button>
+            </form>
+            <a href="/login" class="already-registered">Already have an account? Login</a>
+        </div>
+        <div class="signup-info">
+            <div class="signup-info-content">
+                <h3 class="join-us">One of us?</h3>
+                <p class="experience-text">If you already has an account, just sign in. We've missed you!</p>
+                <button class="btn btn-signup" onclick="window.location.href='/login'">SIGN IN</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country');
+        const phoneCode = document.getElementById('phone-code');
+
+        countrySelect.addEventListener('change', function() {
+            const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+            const code = selectedOption.getAttribute('data-code');
+            phoneCode.textContent = code;
+        });
+    });
+</script>

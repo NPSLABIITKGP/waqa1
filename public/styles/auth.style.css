@@ -1,0 +1,287 @@
+/* * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #f0f4f8, #d9e7ff, #b0e0e6);
+    height: 100%;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+} 
+
+.navbar {
+    background: linear-gradient(to right, var(--bs-cyan), #121212);
+}
+
+main {
+    flex: 1; 
+}
+  
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.card-header {
+    background: linear-gradient(135deg, #9ec7ef, #007bff);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.25em;
+    border-radius: 10px 10px 0 0;
+}
+  
+.card-body {
+    padding: 2em;
+}
+  
+  .form-group {
+    margin-bottom: 1.5em;
+  }
+  
+  .form-control {
+    border-radius: 4px;
+    padding: 0.75em;
+    font-size: 1em;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    border: none; 
+    border-bottom: 1px solid #000; 
+    padding: 10px; 
+    box-shadow: none; 
+    border-radius: 0;
+    transition: border-color 0.3s; 
+}
+
+.form-group input:focus {
+    border-color: #000; 
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #fff;
+    color: #0072ff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+  
+  .alert {
+    margin-top: 1em;
+  }
+  
+  .alert ul {
+    margin: 0;
+    padding-left: 1.25em;
+  }
+  
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+  
+  .card-footer {
+    text-align: center;
+  }
+  
+  .card-footer a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .card-footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+   */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #e0ebeb;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.main-forgot-password {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.forgot-password-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 70%;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.forgot-password-form {
+    width: 60%;
+    padding: 50px;
+}
+
+.forgot-info {
+    width: 40%;
+    background-image: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.forgot-info-content {
+    background-color: #000;
+    opacity: 0.8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.forgot-password-heading {
+    font-family: 'Roboto Mono';
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.forgot-help {
+    font-family: 'Roboto Mono';
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.help-text {
+    font-family: 'Roboto Mono';
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 15px;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-forgot-password {
+    background-color: #2e8b57;
+    color: white;
+    width: 100%;
+}
+
+.btn-help {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-help:hover, .btn-forgot-password:hover {
+    opacity: 0.8;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .forgot-password-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .forgot-password-form, .forgot-info {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .forgot-password-heading, .forgot-help {
+        font-size: 1.5rem;
+    }
+
+    .help-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .forgot-password-form {
+        padding: 15px;
+    }
+
+    .forgot-info {
+        padding: 30px 15px;
+    }
+
+    .forgot-password-heading, .forgot-help {
+        font-size: 1.25rem;
+    }
+}

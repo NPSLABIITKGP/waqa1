@@ -1,0 +1,83 @@
+<!-- <link rel="stylesheet" href="styles/update_profile.style.css">
+<main>
+    <div class="update-profile-form">
+        <div class="card-header">Update Profile</div>
+        <% if (errors.length > 0) { %>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <form action="/update_profile" method="POST">
+            <label>Name</label>
+            <input type="text" name="name" value="<%= userdata.name %>" required>
+            <label>Email</label>
+            <input type="email" name="email" value="<%= userdata.email %>" required>
+            <label>Country</label>
+            <input type="text" name="country" value="<%= userdata.country %>" required>
+            <label>Phone</label>
+            <input type="text" name="phone" value="<%= userdata.phone %>">
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+    </div>
+</main>
+<script>
+    const udata = JSON.parse('<%- userdata %>');
+    document.getElementById('username').innerText = udata.name;
+</script> -->
+
+
+<link rel="stylesheet" href="/styles/update_profile.style.css">
+
+<main class="main-update-profile">
+    <div class="update-profile-container">
+        <div class="update-profile-form">
+            <h2 class="update-profile-heading">Update Profile</h2>
+
+            <% if (errors.length > 0) { %>
+                <div class="alert alert-danger">
+                    <ul>
+                        <% errors.forEach(error => { %>
+                            <li><%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form action="/update_profile" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="<%= userdata.name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" value="<%= userdata.email %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country" class="form-control" value="<%= userdata.country %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone" class="form-control" value="<%= userdata.phone %>">
+                </div>
+                <button class="btn btn-update-profile" type="submit">Update</button>
+            </form>
+        </div>
+        <div class="profile-info">
+            <div class="profile-info-content">
+                <h3 class="profile-help">Oops! Looks like you’re all set!</h3>
+                <p class="help-text">If you change your mind or just want to say hi, our support team is always here for you!</p>
+                <button class="btn btn-help" onclick="window.location.href='/contact'">Contact Us</button>
+                <p class="help-text">But for now, why not head back and explore more cool stuff? 🚀</p>
+                <button class="btn btn-help" onclick="window.location.href='/welcome'">Back to Home</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const udata = JSON.parse('<%- userdata %>');
+    document.getElementById('username').innerText = udata.name;
+</script>
